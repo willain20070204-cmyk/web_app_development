@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <h4 class="mb-0">登記借出</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('records.add') }}">
+                    <div class="mb-3">
+                        <label for="member_id" class="form-label">借閱會員 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="member_id" name="member_id" required>
+                            <option value="">-- 請選擇會員 --</option>
+                            {% for member in members %}
+                            <option value="{{ member.id }}">{{ member.name }} ({{ member.phone or '無電話' }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="book_id" class="form-label">借閱書籍 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="book_id" name="book_id" required>
+                            <option value="">-- 請選擇書籍 --</option>
+                            {% for book in books %}
+                            <option value="{{ book.id }}">{{ book.title }} - {{ book.author }} (庫存: {{ book.stock }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="borrow_date" class="form-label">借出日期 <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="borrow_date" name="borrow_date" required>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label for="due_date" class="form-label">應還日期 <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="due_date" name="due_date" required>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <a href="{{ url_for('records.index') }}" class="btn btn-secondary me-2">取消</a>
+                        <button type="submit" class="btn btn-primary">確認借出</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 自動帶入今天日期作為借出日，並預設借閱期為 14 天
+    document.addEventListener('DOMContentLoaded', function() {
+        const borrowDateInput = document.getElementById('borrow_date');
+        const dueDateInput = document.getElementById('due_date');
+        
+        if (!borrowDateInput.value) {
+            const today = new Date();
+            borrowDateInput.value = today.toISOString().split('T')[0];
+            
+            const dueDate = new Date();
+            dueDate.setDate(today.getDate() + 14);
+            dueDateInput.value = dueDate.toISOString().split('T')[0];
+        }
+
+        borrowDateInput.addEventListener('change', function() {
+            if(this.value) {
+                const bDate = new Date(this.value);
+                bDate.setDate(bDate.getDate() + 14);
+                dueDateInput.value = bDate.toISOString().split('T')[0];
+            }
+        });
+    });
+</script>
+{% endblock %}

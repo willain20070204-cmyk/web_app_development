@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">館藏總數</h5>
+                <p class="card-text display-6">{{ books_count }} 本</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">註冊會員</h5>
+                <p class="card-text display-6">{{ members_count }} 人</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">出借中書籍</h5>
+                <p class="card-text display-6">{{ active_borrow_count }} 本</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white">
+        <h4 class="mb-0">熱門出借排行 (Top 5)</h4>
+    </div>
+    <div class="card-body">
+        {% if popular_books %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>排名</th>
+                        <th>書名</th>
+                        <th>作者</th>
+                        <th>歷史出借次數</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in popular_books %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td><span class="badge bg-secondary">{{ book.borrow_count }} 次</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-muted">目前尚無借閱紀錄。</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

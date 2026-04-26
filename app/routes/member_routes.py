@@ -1,27 +1,54 @@
-from flask import Blueprint, request, render_template, redirect, url_for
+from flask import Blueprint, request, render_template, redirect, url_for, flash
+from app.models.member import Member
 
 member_bp = Blueprint('members', __name__, url_prefix='/members')
 
 @member_bp.route('/')
 def index():
-    """
-    處理會員列表請求。
-    呼叫 Member.get_all() 並渲染 members/index.html。
-    """
-    pass
+    members = Member.get_all()
+    return render_template('members/index.html', members=members)
 
 @member_bp.route('/add', methods=['GET', 'POST'])
 def add():
-    """
-    GET: 渲染 members/add.html 以顯示新增會員表單。
-    POST: 接收表單資料，呼叫 Member.create()，重導向至 members.index。
-    """
-    pass
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        join_date = request.form.get('join_date')
+
+        if not name:
+            flash('會員姓名為必填', 'danger')
+            return redirect(url_for('members.add'))
+
+        if Member.create(name, email, phone, join_date):
+            flash('成功新增會員', 'success')
+            return redirect(url_for('members.index'))
+        else:
+            flash('新增會員失敗', 'danger')
+
+    return render_template('members/add.html')
 
 @member_bp.route('/<int:id>/edit', methods=['GET', 'POST'])
 def edit(id):
-    """
-    GET: 取得指定 id 會員，渲染 members/edit.html。
-    POST: 接收更新資料，呼叫 Member.update()，重導向至 members.index。
-    """
-    pass
+    member = Member.get_by_id(id)
+    if not member:
+        flash('找不到該會員', 'danger')
+        return redirect(url_for('members.index'))
+
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        join_date = request.form.get('join_date')
+
+        if not name:
+            flash('會員姓名為必填', 'danger')
+            return redirect(url_for('members.edit', id=id))
+
+        if Member.update(id, name, email, phone, join_date):
+            flash('成功更新會員資料', 'success')
+            return redirect(url_for('members.index'))
+        else:
+            flash('更新會員資料失敗', 'danger')
+
+    return render_template('members/edit.html', member=member)

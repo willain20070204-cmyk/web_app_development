@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>借閱紀錄管理</h2>
+    <a href="{{ url_for('records.add') }}" class="btn btn-primary">登記借出</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>紀錄 ID</th>
+                    <th>書籍名稱</th>
+                    <th>會員姓名</th>
+                    <th>借出日期</th>
+                    <th>應還日期</th>
+                    <th>歸還日期</th>
+                    <th>狀態</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record.id }}</td>
+                    <td>{{ record.book_title }}</td>
+                    <td>{{ record.member_name }}</td>
+                    <td>{{ record.borrow_date }}</td>
+                    <td>{{ record.due_date }}</td>
+                    <td>{{ record.return_date or '-' }}</td>
+                    <td>
+                        {% if record.status == 'borrowed' %}
+                            <span class="badge bg-warning text-dark">出借中</span>
+                        {% else %}
+                            <span class="badge bg-success">已歸還</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if record.status == 'borrowed' %}
+                        <form method="POST" action="{{ url_for('records.return_book', id=record.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('確定要登記歸還此書嗎？');">登記歸還</button>
+                        </form>
+                        {% else %}
+                        <span class="text-muted">無</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="8" class="text-center text-muted">目前沒有借閱紀錄</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,273 @@
+:root {
+    --bg-color: #1a0b2e;
+    --text-color: #f0e6ff;
+    --primary-color: #9d4edd;
+    --primary-hover: #7b2cbf;
+    --secondary-color: #e0aaff;
+    --card-bg: rgba(60, 9, 108, 0.4);
+    --border-color: rgba(224, 170, 255, 0.3);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: auto;
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(157, 78, 221, 0.15), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(123, 44, 191, 0.15), transparent 25%);
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.screen {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    width: 100%;
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 1;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    color: var(--secondary-color);
+    text-shadow: 0 0 10px rgba(224, 170, 255, 0.5);
+}
+
+.subtitle {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    color: #c7b8ea;
+    padding: 0 1rem;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    color: white;
+    padding: 1rem 2.5rem;
+    box-shadow: 0 4px 15px rgba(157, 78, 221, 0.4);
+    animation: pulse 2s infinite;
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(157, 78, 221, 0.6);
+}
+
+.primary-btn:active {
+    transform: translateY(1px);
+}
+
+.secondary-btn {
+    background-color: transparent;
+    color: var(--secondary-color);
+    padding: 0.8rem 2rem;
+    border: 2px solid var(--secondary-color);
+    margin-top: 2rem;
+}
+
+.secondary-btn:hover {
+    background-color: rgba(224, 170, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(224, 170, 255, 0.2);
+}
+
+.decorations {
+    margin-top: 3rem;
+    font-size: 1.8rem;
+    letter-spacing: 1rem;
+    animation: float 3s ease-in-out infinite alternate;
+}
+
+/* Loading Screen */
+.crystal-ball {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(224, 170, 255, 0.3) 40%, rgba(90, 24, 154, 0.8) 80%);
+    box-shadow: 0 0 30px rgba(157, 78, 221, 0.6), inset 0 0 20px rgba(255,255,255,0.5);
+    position: relative;
+    margin-bottom: 2rem;
+    animation: hover 2s infinite ease-in-out alternate;
+}
+
+.crystal-ball::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 20%;
+    width: 60%;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+    filter: blur(4px);
+    animation: shadow 2s infinite ease-in-out alternate;
+}
+
+.glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(224, 170, 255, 0.8) 0%, transparent 70%);
+    animation: pulsate 1s infinite alternate;
+}
+
+.loading-text {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: var(--secondary-color);
+    animation: blink 1.5s infinite;
+}
+
+/* Result Screen */
+#result-title {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    color: #ffb703;
+    text-shadow: 0 0 15px rgba(255, 183, 3, 0.6);
+    letter-spacing: 2px;
+}
+
+.result-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.8rem;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    transform: translateY(20px);
+    animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.result-item {
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.result-item:last-of-type {
+    margin-bottom: 0;
+}
+
+.icon {
+    font-weight: bold;
+    color: var(--secondary-color);
+    min-width: 80px;
+    font-size: 1.05rem;
+}
+
+.desc {
+    flex: 1;
+    line-height: 1.5;
+    font-size: 1.05rem;
+}
+
+.divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    margin: 1.5rem 0;
+}
+
+.closing {
+    text-align: center;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: #ffd166;
+    font-weight: bold;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(157, 78, 221, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(157, 78, 221, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(157, 78, 221, 0); }
+}
+
+@keyframes float {
+    from { transform: translateY(0px) rotate(0deg); }
+    to { transform: translateY(-10px) rotate(5deg); }
+}
+
+@keyframes hover {
+    from { transform: translateY(0px); }
+    to { transform: translateY(-15px); }
+}
+
+@keyframes shadow {
+    from { transform: scale(1); opacity: 0.4; }
+    to { transform: scale(0.8); opacity: 0.2; }
+}
+
+@keyframes pulsate {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes slideUp {
+    to { transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    h1 { font-size: 1.8rem; }
+    #result-title { font-size: 1.8rem; }
+    .result-card { padding: 1.2rem; }
+    .icon { min-width: 65px; font-size: 1rem; }
+    .desc { font-size: 1rem; }
+    button { padding: 0.8rem 2rem; font-size: 1.1rem; }
+}

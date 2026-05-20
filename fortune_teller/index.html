@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 神秘運勢占卜</title>
+    <meta name="description" content="快來抽取你的專屬運勢籤，探索工作、學業、愛情與金錢運勢！">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 首頁畫面 -->
+        <div id="intro-screen" class="screen active">
+            <h1>🔮 神秘運勢占卜</h1>
+            <p class="subtitle">想知道你近期的運勢如何嗎？集中精神，點擊下方按鈕抽取你的專屬籤詩。</p>
+            <button id="draw-btn" class="primary-btn">抽取運勢籤</button>
+            <div class="decorations">✨ 💫 ⭐</div>
+        </div>
+
+        <!-- 占卜動畫畫面 -->
+        <div id="loading-screen" class="screen">
+            <div class="crystal-ball">
+                <div class="glow"></div>
+            </div>
+            <p class="loading-text">正在為您解讀星象...</p>
+        </div>
+
+        <!-- 占卜結果畫面 -->
+        <div id="result-screen" class="screen">
+            <h2 id="result-title">大吉</h2>
+            <div class="result-card">
+                <div class="result-item">
+                    <span class="icon">💼 工作：</span>
+                    <span id="result-work" class="desc">...</span>
+                </div>
+                <div class="result-item">
+                    <span class="icon">📚 學業：</span>
+                    <span id="result-study" class="desc">...</span>
+                </div>
+                <div class="result-item">
+                    <span class="icon">❤️ 愛情：</span>
+                    <span id="result-love" class="desc">...</span>
+                </div>
+                <div class="result-item">
+                    <span class="icon">💰 金錢：</span>
+                    <span id="result-money" class="desc">...</span>
+                </div>
+                <div class="divider"></div>
+                <p id="result-closing" class="closing">...</p>
+            </div>
+            <button id="reset-btn" class="secondary-btn">↻ 再占卜一次</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
